@@ -31,32 +31,21 @@ const About: React.FC = () => {
         
         <div className="md:col-span-2 text-center md:text-left text-lg text-gray-300 space-y-6">
           <p>
-            "Hello! I am Josh and currently I am an
-            {/* HIGH INTENSITY EXAMPLE */}
+            Hello! I'm a developer who loves building 
             <AuraText 
-              text="Information Technology"
-              colorFrom="from-orange-500" 
-              colorTo="to-yellow-500" 
+              text="immersive digital worlds" 
+              colorFrom="from-purple-500" 
+              colorTo="to-pink-500" 
               glowSize="-inset-x-6 -inset-y-2"
               blurLevel="blur-2xl"
               opacityBase="opacity-40"
             /> 
-            student in the
-            {/* MEDIUM INTENSITY EXAMPLE */}
-            <AuraText 
-            text="University of the Immaculate Conception"
-            href="https://www.uic.edu.ph/"
-            colorFrom="from-pink-400"
-            colorTo="to-purple-400" />
-            specializing in UI/UX design and Web Development. Also, I also specializing in Graphic Designing, Video Editing and Hardware Testing/Engineering.
-
+            and pushing the boundaries of what's possible.
           </p>
           <p>
             I specialize in 
-            {/* MEDIUM INTENSITY EXAMPLE */}
             <AuraText text="High-Performance Apps" colorFrom="from-cyan-400" colorTo="to-emerald-400" /> 
             with a heavy focus on 
-            {/* LOW/SUBTLE INTENSITY EXAMPLE */}
             <AuraText 
               text="Clean Aesthetics" 
               colorFrom="from-orange-400" 
@@ -71,6 +60,18 @@ const About: React.FC = () => {
             <p className="text-sm uppercase tracking-widest text-gray-500 mb-4">Core Philosophy</p>
             <p className="italic text-gray-400">
               "Design is not just what it looks like and feels like. Design is how it <AuraText text="works" colorFrom="from-blue-400" colorTo="to-indigo-600" blurLevel="blur-3xl" opacityBase="opacity-50" />."
+            </p>
+            <p className="mt-4 text-sm">
+              Check out my latest code on 
+              <AuraText 
+                text="GitHub" 
+                href="https://github.com/yunojuswa" 
+                target="_blank"
+                colorFrom="from-gray-400" 
+                colorTo="to-gray-100"
+                glowSize="-inset-x-4"
+                opacityBase="opacity-20"
+              />
             </p>
           </div>
         </div>

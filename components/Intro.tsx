@@ -5,11 +5,11 @@ interface IntroProps {
 }
 
 const INTRO_TEXT_1 = "hello, ";
-const INTRO_TEXT_2 = "I'm juswa";
+const INTRO_TEXT_2 = "I'm Juswa";
 const TYPING_SPEED = 120;
-const PRE_TYPE_DELAY = 3000;
-const POST_TYPE_DELAY = 3000;
-const FADE_OUT_DURATION = 3000;
+const PRE_TYPE_DELAY = 1000;
+const POST_TYPE_DELAY = 2000;
+const FADE_OUT_DURATION = 1500;
 
 const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   const [text1, setText1] = useState('');
@@ -67,12 +67,17 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
       }`}
     >
       <div
-        className={`text-white text-5xl md:text-7xl font-mono transition-all duration-1000 flex items-center ${
-          isFading ? 'blur-lg' : 'blur-0'
+        className={`text-white text-4xl md:text-7xl font-mono transition-all duration-1000 flex flex-wrap justify-center items-center px-6 ${
+          isFading ? 'blur-lg scale-110' : 'blur-0 scale-100'
         }`}
       >
-        <span className={showCursor1 ? 'typing-text' : ''}>{text1}</span>
-        <span className={`iridescent-blue ${showCursor2 ? 'typing-text' : ''}`}>{text2}</span>
+        <span className={`${showCursor1 ? 'typing-text' : ''} whitespace-pre`}>
+          {text1}
+        </span>
+        {/* Added font-bold to make the name part stand out */}
+        <span className={`iridescent-text font-bold px-4 pb-4 ${showCursor2 ? 'typing-text' : ''}`}>
+          {text2}
+        </span>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import type { Star, ShootingStar } from '../types';
 
@@ -6,11 +7,27 @@ interface StarfieldProps {
   speedFactor?: number;
 }
 
+// --- EASTER EGG CONFIGURATION ---
+// Change this value to adjust how often the goat appears.
+// 0.01 = 1% chance every ~5 seconds.
+const GOAT_SPAWN_CHANCE = 0.1; 
+const GOAT_CHECK_INTERVAL = 300; // Check every 300 frames (approx 5 seconds at 60fps)
+// --------------------------------
+
 const Starfield: React.FC<StarfieldProps> = ({
   starCount = 1500,
   speedFactor = 0.05,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const goatRef = useRef<HTMLImageElement>(null);
+  const goatState = useRef({
+    active: false,
+    x: -200,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    rotation: 0
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -24,6 +41,7 @@ const Starfield: React.FC<StarfieldProps> = ({
     let initialStars: Star[] = [];
     let shootingStars: ShootingStar[] = [];
     let rotation = 0;
+    let frameCount = 0;
 
     const setCanvasExtents = () => {
       width = document.body.clientWidth;
@@ -113,9 +131,47 @@ const Starfield: React.FC<StarfieldProps> = ({
       }
     };
 
+    const updateGoat = () => {
+      const g = goatState.current;
+      const goatEl = goatRef.current;
+
+      if (g.active) {
+        g.x += g.vx;
+        g.y += g.vy;
+        
+        if (goatEl) {
+          goatEl.style.transform = `translate(${g.x}px, ${g.y}px) rotate(${g.rotation}deg)`;
+        }
+
+        // Deactivate if off-screen (with some buffer)
+        if (g.x > width + 300 || g.y > height + 300 || g.y < -300) {
+          g.active = false;
+          if (goatEl) goatEl.style.display = 'none';
+        }
+      } else {
+        // Roll for spawn every GOAT_CHECK_INTERVAL frames
+        if (frameCount % GOAT_CHECK_INTERVAL === 0) {
+          if (Math.random() < GOAT_SPAWN_CHANCE) {
+            g.active = true;
+            g.x = -200;
+            g.y = Math.random() * (height * 0.8) + (height * 0.1);
+            g.vx = Math.random() * 3 + 4; // Horizontal speed
+            g.vy = (Math.random() - 0.5) * 2; // Slight vertical drift
+            g.rotation = (Math.random() - 0.5) * 45; // Random diagonal orientation
+            
+            if (goatEl) {
+              goatEl.style.display = 'block';
+              goatEl.style.transform = `translate(${g.x}px, ${g.y}px) rotate(${g.rotation}deg)`;
+            }
+          }
+        }
+      }
+    };
+
     let animationFrameId: number;
     
     const animate = () => {
+      frameCount++;
       rotation += speedFactor * 0.01;
       
       const cos = Math.cos(rotation);
@@ -125,11 +181,9 @@ const Starfield: React.FC<StarfieldProps> = ({
         const iStar = initialStars[i];
         const star = stars[i];
 
-        // Rotate around Y-axis (yaw)
         const x1 = iStar.x * cos - iStar.z * sin;
         const z1 = iStar.x * sin + iStar.z * cos;
 
-        // Rotate around X-axis (pitch) for diagonal feel
         const y2 = iStar.y * cos - z1 * sin;
         const z2 = iStar.y * sin + z1 * cos;
 
@@ -138,7 +192,6 @@ const Starfield: React.FC<StarfieldProps> = ({
         star.z = z2;
       }
       
-      // Spawn shooting stars
       if (Math.random() > 0.995 && shootingStars.length < 3) {
         shootingStars.push({
           x: Math.random() * width * 1.5 - width * 0.25,
@@ -152,6 +205,8 @@ const Starfield: React.FC<StarfieldProps> = ({
       clear();
       drawStars();
       drawShootingStars();
+      updateGoat();
+      
       animationFrameId = window.requestAnimationFrame(animate);
     };
 
@@ -163,7 +218,26 @@ const Starfield: React.FC<StarfieldProps> = ({
     };
   }, [starCount, speedFactor]);
 
-  return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full block z-0" />;
+  return (
+    <div className="fixed top-0 left-0 w-full h-full block z-0 overflow-hidden pointer-events-none">
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <img 
+        ref={goatRef}
+        src="pictures/astrogoat.gif" 
+        alt="Astro Goat"
+        style={{
+          display: 'none',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100px',
+          height: 'auto',
+          zIndex: 5,
+          filter: 'drop-shadow(0 0 10px rgba(0, 229, 255, 0.4))'
+        }}
+      />
+    </div>
+  );
 };
 
 export default Starfield;
