@@ -69,7 +69,7 @@ const App: React.FC = () => {
           </div>
           <p className="font-mono uppercase tracking-[0.2em] mb-4">Vibe Coded with</p>
           <div className="my-6 flex justify-center opacity-60 hover:opacity-100 transition-opacity">
-            <img src="pictures/googleAIpic.png" alt="Google AI Studio" className="max-w-[180px] w-full grayscale contrast-125 brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-500" />
+            <img src="/googleAIpic.png" alt="Google AI Studio" className="max-w-[180px] w-full grayscale contrast-125 brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-500" />
           </div>
           <p className="font-light tracking-wide">&copy; {new Date().getFullYear()} juswa. All Rights Reserved.</p>
         </footer>

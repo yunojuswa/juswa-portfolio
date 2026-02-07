@@ -4,7 +4,7 @@ import AuraText from '../components/AuraText';
 
 const About: React.FC = () => {
   // Replace this URL with your own image link
-  const PROFILE_IMAGE_URL = "pictures/profile.jpg";
+  const PROFILE_IMAGE_URL = "/profile.jpg";
 
   return (
     <Section id="about" title="About Me">

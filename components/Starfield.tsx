@@ -223,7 +223,7 @@ const Starfield: React.FC<StarfieldProps> = ({
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <img 
         ref={goatRef}
-        src="pictures/astrogoat.gif" 
+        src="/astrogoat.gif" 
         alt="Astro Goat"
         style={{
           display: 'none',
